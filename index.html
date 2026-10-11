@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>فرحنا في White Plaza 🤍</title>
+<title>فرحنا 🤍 — اختيار القاعة</title>
 <style>
 :root{--bg:#faf5ea;--card:#fffdf8;--tx:#2b2b2e;--mu:#7a7468;--gold:#b8934a;--gl:#f3e7cb;--bd:#e6dcc3;--ok:#2f7d5b;--wr:#a8651d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1b18;--card:#2a2723;--tx:#f2ece0;--mu:#a59d8c;--gl:#3b3324;--bd:#453e30}}
@@ -58,7 +58,7 @@ table{width:100%;border-collapse:collapse;font-size:.88rem}td,th{border-bottom:1
 <script>
 const {useState,useEffect,useMemo}=React, h=React.createElement;
 /* ===== CONFIG: edit all prices here ===== */
-const CONFIG={
+const WP={
  baseGuests:150, chairFee:75, servicePct:12,
  packages:{weekday:{label:"ويك داي",price:39900},weekend:{label:"ويك إند",price:44900}},
  included:["DJ","كوشة","نظام إضاءة","دانس فلور","ترابيزات وكراسي","سنتر بيس","كات ووك","إيجار القاعة"],
@@ -81,58 +81,91 @@ const CONFIG={
    {id:"e3",name:"دخول عمل فوتوسيشن قبل الحفلة",price:2000},{id:"e4",name:"دخول برومو فيديو",price:2000}]}
  ]
 };
-const SECS=[["info","بيانات الحفلة"],["pkg","الباكدج والأفراد"],["buf","البوفيه"],["light","الإضاءة والمؤثرات"],["cake","التورتة"],["video","التصوير والفيديو"],["fire","الفاير شو"],["entry","رسوم الدخول"],["sum","ملخص التكلفة"]];
-const ALL=CONFIG.groups.flatMap(g=>g.items.map(i=>({...i,g:g.id})));
-const DEF={pkg:"weekday",guests:150,buffet:null,sel:[],names:"",date:"",notes:""};
+Object.assign(WP,{name:"White Plaza",sub:"مدينة نصر",addr:"دار الوقود – محور المشير طنطاوي – مدينة نصر، القاهرة",mode:"extra",
+ warn:"لا نفترض أن الأكل مشمول — تأكدوا من القاعة.",buffNote:"البوفيه المختار يُستخدم لحساب الأفراد الزيادة فقط (فوق 150) ولا نضيف سعره على أفراد الباكدج. تأكدوا من القاعة هل البوفيه داخل سعر الباكدج أم بيتحسب بشكل منفصل."});
+const I=a=>a.map(([id,name,price,confirm])=>({id,name,price,confirm}));
+const G=(id,sec,icon,title,mode,items)=>({id,sec,icon,title,mode,items:I(items)});
+const NF={name:"نايل فلوري",sub:"سعة 300 فرد — أسعار شهور 8 إلى 12",addr:"سعة القاعة 300 فرد — الأسعار للشهور 8 إلى 12",baseGuests:100,chairFee:20,servicePct:12,mode:"upgrade",discount:3000,
+ packages:{weekday:{label:"ويك داي",price:24900},weekend:{label:"ويك إند",price:26900}},
+ included:["DJ","كوشة","ديكورات المكان","إضاءة","ديكور مدخل القاعة","100 فرد (كراسي + بوفيه 1 بسعر 75)"],warn:"الباكدج يشمل بوفيه 1 (هاي تي).",
+ buffNote:"بوفيه 1 مضمّن في الباكدج. لو اخترتم بوفيه تاني: يُخصم 3,000 من الباكدج ثم يُضرب سعر البوفيه الجديد في عدد الأفراد الكلي. الفرد الزيادة = 20 جنيه كرسي + سعر البوفيه. (حسب كلام القاعة — أكدوه كتابيًا)",
+ buffets:[{id:"b1",name:"بوفيه 1",price:75},{id:"b2",name:"بوفيه 2",price:110},{id:"b3",name:"بوفيه 3",price:230},{id:"b4",name:"بوفيه 4",price:275}],
+ groups:[G("light","light","💡","الإضاءة والمؤثرات","multi",[["laser","ليزر إضافي",2500],["smoke","ماكينة دخان",1500],["bride","غرفة عروسة سيلينا",1500],["roomdec","ديكور غرفة",1500],["zaffa","زفة دمياطي",3500],["dabke","دبكة لبناني",6500,1],["maz","ديكور ترابيزة المأذون",1000]]),
+ G("decor","light","🌸","ديكور إضافي","multi",[["gb","جيست بوك + ترابيزة",1000],["mn","منديل كتب كتاب",600],["wb","Welcome Board",1000],["mir","Mirror",1500]]),
+ G("cake","cake","🎂","التورتة","multi",[["c3","تورتة 3 أدوار فريش",2500],["candy","كاندي بار 400 قطعة",4000,1],["cit","تورتة إيطالي 50 سم",3500,1]]),
+ G("cam","video","🎥","باكدجات الكاميرات (اختيار واحد فقط)","single",[["v1","كاميرا + مونتاج HD",1750],["v2","2 كاميرا + مونتاج HD",2500],["v1c","كاميرا + كرين + مونتاج HD",5000],["v2c","2 كاميرا + كرين + مونتاج HD",7000]]),
+ G("photo","video","📸","تصوير فوتوغرافي — ms studies (اختيار واحد)","single",[["ph1","فوتوسيشن (قبل الفرح بساعة + الحفلة)",4500,1],["ph3","باكدج 3: ميك أب + فوتوسيشن + الحفلة",5000,1],["ph4","باكدج 4: باكدج 3 + برومو فيديو",8000,1]]),
+ G("fire","fire","🔥","الفاير شو (نوع واحد أو لا شيء)","single",[["sl","Slowdance",4500],["esl","Entrance + Slowdance",5500],["sp4","فاير شو 4 سبارك",5000],["sp6","فاير شو 6 سبارك",7500]]),
+ G("entry","entry","🎟️","رسوم الدخول","multi",[["e1","رسوم مأذون",500],["e2","دخول مصور من الخارج (كاميرا) داخل القاعة",1500],["e3","دخول فوتوسيشن قبل الفرح بساعة",1500],["e4","دخول برومو فيديو",1500],["e5","دخول كاميرا فيديو داخل القاعة",1500]])]};
+const FI={name:"Fiora",sub:"قاعة حدائق — للتواصل 01111075814",addr:"للتواصل: 01111075814",baseGuests:100,chairFee:120,servicePct:12,svcAssumed:true,mode:"all",
+ packages:{weekday:{label:"ويك داي",price:50000},weekend:{label:"ويك إند",price:60000}},
+ included:["100 كرسي خشب","10 ترابيزات بانكيت","ستيدج 3×12 م","دانس فلور 7×7 م","إضاءة","باك دروب","2 ترابيزة عائلة","DJ احترافي","تصوير فيديو كامل للفرح","Entrance","غرفة عروسة","Welcome Mirror"],
+ warn:"الأكل بيتحسب فوق الباكدج. نسبة الخدمة 12% افتراض غير مؤكد.",
+ buffNote:"الأكل بيتحسب فوق الباكدج (قالت القاعة). افترضنا إنه يُضرب في عدد الأفراد كله، والفرد الزيادة 120 للكرسي — أكدوا ده. إضافات Fiora غير معروفة الأسعار حاليًا.",
+ buffets:[{id:"b1",name:"HI TEA",price:120},{id:"b2",name:"FINGER FOOD",price:160}],groups:[]};
+const HALLS={wp:WP,nf:NF,fi:FI};
+const SECS=[["info","بيانات الحفلة"],["pkg","الباكدج والأفراد"],["buf","البوفيه"],["light","الإضاءة والمؤثرات"],["cake","التورتة"],["video","التصوير والفيديو"],["fire","الفاير شو"],["entry","رسوم الدخول"],["sum","ملخص التكلفة"],["hc","مقارنة القاعات"]];
+const ALL=[];Object.values(HALLS).forEach(H=>H.groups.forEach(g=>g.items.forEach(i=>{if(!ALL.some(x=>x.id===i.id))ALL.push({...i,g:g.id,m:g.mode})})));
+const DEF={hall:"wp",pkg:"weekday",guests:150,buffet:null,sel:[],names:"",date:"",notes:""};
 const fmt=n=>Math.round(n).toLocaleString("en-US");
 const egp=n=>fmt(n)+" جنيه";
 function calc(s){
- const base=CONFIG.packages[s.pkg].price, g=Math.max(0,Math.floor(+s.guests||0)), extra=Math.max(0,g-CONFIG.baseGuests);
- const bf=CONFIG.buffets.find(b=>b.id===s.buffet), meal=bf?bf.price:0, extraCost=extra*(CONFIG.chairFee+meal);
- const items=s.sel.map(id=>ALL.find(i=>i.id===id)).filter(Boolean), ex=items.reduce((a,i)=>a+i.price,0);
- const sub=base+extraCost+ex, svc=sub*CONFIG.servicePct/100;
- return {base,g,extra,bf,meal,extraCost,items,ex,sub,svc,total:sub+svc};
+ const K=HALLS[s.hall]||WP,pk=K.packages[s.pkg]||K.packages.weekday,g=Math.max(0,Math.floor(+s.guests||0)),extra=Math.max(0,g-K.baseGuests);
+ const bf=K.buffets.find(b=>b.id===s.buffet),meal=bf?bf.price:0;let adj=0,food=0,per=K.chairFee+meal;
+ if(K.mode==="upgrade"){const inc=K.buffets[0];if(bf&&bf.id!==inc.id){adj=-K.discount;food=meal*g;per=K.chairFee}else per=K.chairFee+inc.price}
+ else if(K.mode==="all"){food=meal*g;per=K.chairFee}
+ const extraCost=extra*per,all=K.groups.flatMap(x=>x.items),items=s.sel.map(id=>all.find(i=>i.id===id)).filter(Boolean),ex=items.reduce((a,i)=>a+i.price,0);
+ const sub=pk.price+adj+food+extraCost+ex,svc=sub*K.servicePct/100;
+ return {K,base:pk.price,g,extra,bf,meal,adj,food,perExtra:per,extraCost,items,ex,sub,svc,total:sub+svc};
 }
 const enc=s=>btoa(unescape(encodeURIComponent(JSON.stringify(s))));
 function dec(t){try{const o=JSON.parse(decodeURIComponent(escape(atob(t.trim()))));
- return {pkg:CONFIG.packages[o.pkg]?o.pkg:"weekday",guests:Math.max(0,Math.floor(+o.guests||0)),buffet:CONFIG.buffets.some(b=>b.id===o.buffet)?o.buffet:null,
+ return {hall:HALLS[o.hall]?o.hall:"wp",pkg:o.pkg==="weekend"?"weekend":"weekday",guests:Math.max(0,Math.floor(+o.guests||0)),buffet:["b1","b2","b3","b4"].includes(o.buffet)?o.buffet:null,
  sel:fix((o.sel||[]).filter(id=>ALL.some(i=>i.id===id))),names:String(o.names||""),date:String(o.date||""),notes:String(o.notes||"")}}catch(e){return null}}
-function fix(sel){ // keep at most one per single-mode group
- const seen={};return sel.filter(id=>{const i=ALL.find(x=>x.id===id),g=CONFIG.groups.find(x=>x.id===i.g);
-  if(g.mode==="single"){if(seen[g.id])return false;seen[g.id]=1}return true})}
+function fix(sel){const seen={};return sel.filter(id=>{const i=ALL.find(x=>x.id===id);if(i.m==="single"){if(seen[i.g])return false;seen[i.g]=1}return true})}
 const link=s=>location.href.split("#")[0]+"#s="+enc(s);
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 function copy(t){try{if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(t).then(()=>true,()=>fb(t))}catch(e){}return Promise.resolve(fb(t))}
 function fb(t){try{const a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity=0;document.body.appendChild(a);a.select();const ok=document.execCommand("copy");a.remove();return ok}catch(e){return false}}
-function summaryText(s){const c=calc(s);
- return ["فرحنا في White Plaza 🤍",s.names&&("الأسماء: "+s.names),s.date&&("التاريخ: "+s.date),
- "الباكدج: "+CONFIG.packages[s.pkg].label+" — "+egp(c.base),"عدد الأفراد: "+c.g+(c.extra?" (زيادة "+c.extra+")":""),
+function summaryText(s){const c=calc(s),K=c.K;
+ return ["فرحنا 🤍 — "+K.name,s.names&&("الأسماء: "+s.names),s.date&&("التاريخ: "+s.date),
+ "الباكدج: "+K.packages[s.pkg].label+" — "+egp(c.base),"عدد الأفراد: "+c.g+(c.extra?" (زيادة "+c.extra+")":""),
  "البوفيه: "+(c.bf?c.bf.name+" — "+c.bf.price+" جنيه للفرد":"لم يتم الاختيار"),
- c.extra?"تكلفة الأفراد الزيادة: "+egp(c.extraCost):"",
- "الإضافات:"].concat(c.items.length?c.items.map(i=>"• "+i.name+" — "+fmt(i.price)):["• لا يوجد"],
- ["إجمالي الإضافات: "+egp(c.ex),"خدمة "+CONFIG.servicePct+"%: "+egp(c.svc),"الإجمالي التقديري: "+egp(c.total),s.notes&&("ملاحظات: "+s.notes),
- "(تقديري — يحتاج تأكيد من القاعة)"]).filter(Boolean).join("\n")}
+ c.adj?"خصم البوفيه المضمّن: "+egp(c.adj):"",c.food?"الأكل لكل الأفراد: "+egp(c.food):"",c.extra?"الأفراد الزيادة: "+egp(c.extraCost):"","الإضافات:"]
+ .concat(c.items.length?c.items.map(i=>"• "+i.name+" — "+fmt(i.price)):["• لا يوجد"],
+ ["إجمالي الإضافات: "+egp(c.ex),"خدمة "+K.servicePct+"%: "+egp(c.svc),"الإجمالي التقديري: "+egp(c.total),s.notes&&("ملاحظات: "+s.notes),"(تقديري — يحتاج تأكيد من القاعة)"]).filter(Boolean).join("\n")}
 
 function Opt({on,onClick,children}){return h("button",{type:"button",className:"opt"+(on?" on":""),"aria-pressed":!!on,onClick},children)}
-function Sum({s,c}){return h("div",{className:"card"},h("h2",null,"ملخص التكلفة"),
- [["سعر الباكدج ("+CONFIG.packages[s.pkg].label+")",egp(c.base)],["عدد الأفراد",c.g],["عدد الأفراد الزيادة",c.extra],
- ["سعر الوجبة المختارة",c.bf?c.bf.price+" جنيه":"— لم تُختر"],["الكراسي والوجبات للزيادة ("+CONFIG.chairFee+" + "+c.meal+")",egp(c.extraCost)],
- ["إجمالي الإضافات ("+c.items.length+")",egp(c.ex)],["الإجمالي قبل الخدمة",egp(c.sub)],["خدمة "+CONFIG.servicePct+"%",egp(c.svc)]]
+function Sum({s,c}){const K=c.K;return h("div",{className:"card"},h("h2",null,"ملخص التكلفة"),
+ [["القاعة",K.name],["سعر الباكدج ("+K.packages[s.pkg].label+")",egp(c.base)],["عدد الأفراد",c.g],["عدد الأفراد الزيادة",c.extra],
+ ["سعر الوجبة المختارة",c.bf?c.bf.price+" جنيه":(K.mode==="upgrade"?K.buffets[0].price+" (المضمّن)":"— لم تُختر")],
+ c.adj?["خصم البوفيه المضمّن",egp(c.adj)]:null,c.food?["الأكل لكل الأفراد ("+c.g+" × "+c.meal+")",egp(c.food)]:null,
+ ["تكلفة الأفراد الزيادة ("+c.perExtra+" للفرد)",egp(c.extraCost)],["إجمالي الإضافات ("+c.items.length+")",egp(c.ex)],["الإجمالي قبل الخدمة",egp(c.sub)],
+ ["خدمة "+K.servicePct+"%"+(K.svcAssumed?" (مفترضة)":""),egp(c.svc)]].filter(Boolean)
  .map((r,i)=>h("div",{className:"line",key:i},h("span",null,r[0]),h("b",null,r[1]))),
  h("div",{className:"line tot"},h("span",null,"الإجمالي النهائي التقديري"),h("span",null,egp(c.total))))}
-
+function HallCmp({s}){
+ const rows=Object.entries(HALLS).map(([k,H])=>{const all=H.groups.flatMap(g=>g.items),t=calc({...s,hall:k});
+  return {k,H,t,miss:s.sel.filter(id=>!all.some(i=>i.id===id)).map(id=>ALL.find(i=>i.id===id).name)}});
+ const min=Math.min(...rows.map(r=>r.t.total));
+ return h("section",{id:"sec-hc"},h("h2",null,"مقارنة القاعات بنفس اختياراتكم"),
+  h("div",{className:"note"},"نفس الباكدج (ويك داي/ويك إند) وعدد الأفراد ورقم البوفيه والإضافات المتطابقة. الإضافة غير الموجودة أو غير المعروف سعرها في قاعة لا تُحسب وتظهر كـ«غير متاح». في Fiora بوفيه 1 = HI TEA وبوفيه 2 = FINGER FOOD."),
+  h("div",{className:"scroll"},h("table",null,h("thead",null,h("tr",null,["القاعة","الباكدج","أكل وأفراد زيادة","الإضافات","الإجمالي","الفرق"].map(x=>h("th",{key:x},x)))),
+  h("tbody",null,rows.map(r=>h("tr",{key:r.k,className:r.t.total===min?"diff":""},h("td",null,h("b",null,r.H.name)),h("td",null,egp(r.t.base)),
+   h("td",null,egp(r.t.food+r.t.adj+r.t.extraCost)),h("td",null,egp(r.t.ex),r.miss.length?h("div",{className:"warn"},"غير متاح: "+r.miss.join("، ")):null),
+   h("td",null,h("b",null,egp(r.t.total))),h("td",null,r.t.total===min?"الأرخص":"+"+egp(r.t.total-min))))))))}
 function App(){
  const [s,setS]=useState(()=>{const m=location.hash.match(/s=([^&]+)/);return (m&&dec(decodeURIComponent(m[1])))||DEF});
  const [toast,setToast]=useState("");const [imp,setImp]=useState("");const [saved,setSaved]=useState(()=>({me:store.get("wp_me"),her:store.get("wp_her")}));
- const c=useMemo(()=>calc(s),[s]);
+ const c=useMemo(()=>calc(s),[s]);const K=c.K;
  const say=m=>{setToast(m);setTimeout(()=>setToast(""),2200)};
  const up=p=>setS(o=>({...o,...p}));
  const toggle=(g,id)=>setS(o=>{const has=o.sel.includes(id);let sel=o.sel.filter(x=>x!==id);
-  if(!has){if(g.mode==="single")sel=sel.filter(x=>!g.items.some(i=>i.id===x));sel.push(id)}return {...o,sel}});
+  if(!has){if(g.mode==="single")sel=sel.filter(x=>!ALL.some(i=>i.id===x&&i.g===g.id));sel.push(id)}return {...o,sel}});
  useEffect(()=>{try{history.replaceState(null,"","#s="+enc(s))}catch(e){}},[s]);
  const doCopy=(t,m)=>copy(t).then(ok=>say(ok?m:"تعذر النسخ — انسخ يدويًا من خانة الاستيراد"));
  const done={info:!!(s.names||s.date),pkg:true,buf:!!s.buffet};
- ["light","cake","video","fire","entry"].forEach(k=>done[k]=s.sel.some(id=>CONFIG.groups.find(g=>g.sec===k&&g.items.some(i=>i.id===id))));
+ ["light","cake","video","fire","entry"].forEach(k=>done[k]=s.sel.some(id=>K.groups.find(g=>g.sec===k&&g.items.some(i=>i.id===id))));
  const pct=Math.round(Object.values(done).filter(Boolean).length/8*100);
  const go=id=>{const e=document.getElementById("sec-"+id);e&&e.scrollIntoView({behavior:"smooth"})};
  const gcard=g=>h("div",{key:g.id},h("h3",null,g.icon+" "+g.title),h("div",{className:"grid"},g.items.map(i=>
@@ -140,31 +173,31 @@ function App(){
    i.confirm?h("span",{className:"tag"},"يحتاج تأكيد من القاعة"):null))));
  const save=who=>{store.set("wp_"+who,enc(s));setSaved(o=>({...o,[who]:enc(s)}));say("تم الحفظ على هذا الجهاز فقط")};
  const A=saved.me&&dec(saved.me),B=saved.her&&dec(saved.her),ca=A&&calc(A),cb=B&&calc(B);
- const cmpRows=A&&B?[["الباكدج",x=>CONFIG.packages[x.pkg].label],["عدد الأفراد",x=>x.guests],["البوفيه",x=>(CONFIG.buffets.find(b=>b.id===x.buffet)||{name:"—"}).name],
+ const cmpRows=A&&B?[["الباكدج",x=>HALLS[x.hall].name+" — "+HALLS[x.hall].packages[x.pkg].label],["عدد الأفراد",x=>x.guests],["البوفيه",x=>(HALLS[x.hall].buffets.find(b=>b.id===x.buffet)||{name:"—"}).name],
   ["الإضافات",x=>calc(x).items.map(i=>i.name).join("، ")||"—"],["الإجمالي التقديري",x=>egp(calc(x).total)]]:[];
  const onlyA=A&&B?ca.items.filter(i=>!cb.items.some(j=>j.id===i.id)):[],onlyB=A&&B?cb.items.filter(i=>!ca.items.some(j=>j.id===i.id)):[];
  return h("div",null,
  toast&&h("div",{className:"toast",role:"status"},toast),
- h("header",null,h("div",{className:"orn"},"❦ ✦ ❦"),h("h1",null,"فرحنا في White Plaza 🤍"),h("p",null,"اختاروا تفاصيل فرحنا واحسبوا الميزانية سوا."),
-  h("p",{className:"sub"},"دار الوقود – محور المشير طنطاوي – مدينة نصر، القاهرة.")),
+ h("header",null,h("div",{className:"orn"},"❦ ✦ ❦"),h("h1",null,"فرحنا 🤍"),h("p",null,"اختاروا تفاصيل فرحنا واحسبوا الميزانية سوا."),
+  h("p",{className:"sub"},K.name+" — "+K.addr)),
  h("nav",null,h("div",{className:"chips"},SECS.map(([id,t],i)=>h("button",{key:id,className:"chip"+(done[id]?" done":""),onClick:()=>go(id)},(i+1)+". "+t))),h("div",{className:"bar"},h("i",{style:{width:pct+"%"}}))),
  h("div",{className:"wrap"},
  h("main",null,
-  h("section",{id:"sec-info"},h("h2",null,"1. بيانات الحفلة"),h("div",{className:"row"},
+  h("section",{id:"sec-info"},h("h2",null,"1. بيانات الحفلة"),h("h3",null,"القاعة"),h("div",{className:"grid"},Object.entries(HALLS).map(([k,H])=>h(Opt,{key:k,on:s.hall===k,onClick:()=>up({hall:k})},h("div",{className:"nm"},"🏛️ "+H.name),h("small",null,H.sub)))),h("div",{className:"row",style:{marginTop:10}},
    h("div",null,h("label",{htmlFor:"nm"},"الأسماء"),h("input",{id:"nm",type:"text",value:s.names,onChange:e=>up({names:e.target.value})})),
    h("div",null,h("label",{htmlFor:"dt"},"تاريخ الفرح"),h("input",{id:"dt",type:"date",value:s.date,onChange:e=>up({date:e.target.value})})))),
-  h("section",{id:"sec-pkg"},h("h2",null,"2. الباكدج وعدد الأفراد"),h("div",{className:"grid"},Object.entries(CONFIG.packages).map(([k,p])=>
-   h(Opt,{key:k,on:s.pkg===k,onClick:()=>up({pkg:k})},h("div",{className:"nm"},p.label),h("div",{className:"pr"},egp(p.price)),h("small",null,"لحد "+CONFIG.baseGuests+" فرد")))),
-   h("div",{className:"note"},"الباكدج يشمل (حسب إعلان القاعة): "+CONFIG.included.join("، ")+". ",h("b",{className:"warn"},"لا نفترض أن الأكل مشمول — تأكدوا من القاعة.")),
+  h("section",{id:"sec-pkg"},h("h2",null,"2. الباكدج وعدد الأفراد"),h("div",{className:"grid"},Object.entries(K.packages).map(([k,p])=>
+   h(Opt,{key:k,on:s.pkg===k,onClick:()=>up({pkg:k})},h("div",{className:"nm"},p.label),h("div",{className:"pr"},egp(p.price)),h("small",null,"لحد "+K.baseGuests+" فرد")))),
+   h("div",{className:"note"},"الباكدج يشمل (حسب إعلان القاعة): "+K.included.join("، ")+". ",h("b",{className:"warn"},K.warn)),
    h("label",{htmlFor:"gc"},"إجمالي عدد الأفراد"),
    h("input",{id:"gc",type:"number",inputMode:"numeric",min:0,step:1,value:s.guests,onChange:e=>{const v=e.target.value;up({guests:v===""?"":Math.max(0,Math.floor(+v||0))})}}),
    h("input",{type:"range","aria-label":"عدد الأفراد",min:50,max:500,step:5,value:c.g,onChange:e=>up({guests:+e.target.value}),style:{width:"100%",accentColor:"#b8934a"}}),
-   h("div",{className:"note"},c.extra?"أفراد زيادة: "+c.extra+" × ("+CONFIG.chairFee+" كرسي + "+c.meal+" وجبة) = "+egp(c.extraCost):"لا توجد زيادة — وفي حالة أقل من "+CONFIG.baseGuests+" لا يوجد خصم على الباكدج.")),
-  h("section",{id:"sec-buf"},h("h2",null,"3. البوفيه"),h("div",{className:"grid"},CONFIG.buffets.map(b=>
+   h("div",{className:"note"},c.extra?"أفراد زيادة: "+c.extra+" × ("+c.perExtra+" للفرد) = "+egp(c.extraCost):"لا توجد زيادة — وفي حالة أقل من "+K.baseGuests+" لا يوجد خصم على الباكدج.")),
+  h("section",{id:"sec-buf"},h("h2",null,"3. البوفيه"),h("div",{className:"grid"},K.buffets.map(b=>
    h(Opt,{key:b.id,on:s.buffet===b.id,onClick:()=>up({buffet:s.buffet===b.id?null:b.id})},h("div",{className:"nm"},"🍽️ "+b.name),h("div",{className:"pr"},b.price+" جنيه للفرد"),h("span",{className:"tag"},"مبدئي — يحتاج تأكيد")))),
-   h("div",{className:"note"},"البوفيه المختار يُستخدم لحساب تكلفة الأفراد الزيادة فقط (فوق "+CONFIG.baseGuests+"). لا نضيف سعره على أفراد الباكدج. ",h("b",null,"تأكدوا من القاعة هل البوفيه داخل سعر الباكدج أم بيتحسب بشكل منفصل."))),
+   h("div",{className:"note"},K.buffNote)),
   [["light","4. الإضاءة والمؤثرات"],["cake","5. التورتة"],["video","6. التصوير والفيديو"],["fire","7. الفاير شو"],["entry","8. رسوم الدخول"]].map(([k,t])=>
-   h("section",{id:"sec-"+k,key:k},h("h2",null,t),CONFIG.groups.filter(g=>g.sec===k).map(gcard),
+   h("section",{id:"sec-"+k,key:k},h("h2",null,t),K.groups.filter(g=>g.sec===k).map(gcard),K.groups.some(g=>g.sec===k)?null:h("p",{className:"sub"},"لا توجد أسعار مسجلة لهذا القسم في هذه القاعة."),
     k==="entry"?h("div",{className:"note"},"كل أسعار الإضافات من صورة مكتوبة بخط اليد — راجعوها مع القاعة."):null)),
   h("section",{id:"sec-sum"},h("h2",null,"9. ملخص التكلفة النهائي"),h(Sum,{s,c}),
    h("div",{className:"note"},"الخدمة 12% مفترض تتحسب على الباكدج والأفراد الزيادة والإضافات — ",h("b",{className:"warn"},"يحتاج تأكيد من القاعة.")),
@@ -175,7 +208,7 @@ function App(){
     h("a",{className:"btn",style:{display:"inline-block",textDecoration:"none"},target:"_blank",rel:"noopener",href:"https://wa.me/?text="+encodeURIComponent(summaryText(s)+"\n\n"+link(s))},"مشاركة على واتساب"),
     h("button",{className:"btn",onClick:()=>{if(confirm("مسح كل الاختيارات؟"))setS(DEF)}},"إعادة الاختيارات من البداية")),
    h("p",{className:"note"},"الحساب تقديري بناءً على الأسعار المتاحة. يجب تأكيد أسعار الإضافات، تفاصيل البوفيه، وما يشمله الباكدج وطريقة حساب الخدمة مع القاعة.")),
-  h("section",{id:"sec-cmp"},h("h2",null,"اختياراتي ❤️ اختياراتها"),
+  h(HallCmp,{s}),h("section",{id:"sec-cmp"},h("h2",null,"اختياراتي ❤️ اختياراتها"),
    h("div",{className:"note"},"الحفظ هنا على متصفح هذا الجهاز فقط ولا يتزامن مع جهاز آخر. لتبادل الاختيارات: انسخوا الرابط أو الكود وابعتوه، واستوردوه عند الطرف الآخر."),
    h("button",{className:"btn p",onClick:()=>save("me")},"حفظ اختياراتي"),h("button",{className:"btn p",onClick:()=>save("her")},"حفظ اختياراتها"),
    h("button",{className:"btn",onClick:()=>doCopy(enc(s),"تم نسخ الكود")},"نسخ كود الاختيارات"),
