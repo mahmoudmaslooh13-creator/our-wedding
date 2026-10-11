@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>فرحنا في White Plaza 🤍</title>
+<style>
+:root{--bg:#faf5ea;--card:#fffdf8;--tx:#2b2b2e;--mu:#7a7468;--gold:#b8934a;--gl:#f3e7cb;--bd:#e6dcc3;--ok:#2f7d5b;--wr:#a8651d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1b18;--card:#2a2723;--tx:#f2ece0;--mu:#a59d8c;--gl:#3b3324;--bd:#453e30}}
+:root[data-theme="dark"]{--bg:#1d1b18;--card:#2a2723;--tx:#f2ece0;--mu:#a59d8c;--gl:#3b3324;--bd:#453e30}
+html{height:100%;scroll-padding-top:120px}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--tx);font-family:"Noto Naskh Arabic","Segoe UI",Tahoma,system-ui,sans-serif;line-height:1.6}
+button,input,textarea{font:inherit;color:inherit}
+header{text-align:center;padding:28px 16px 12px}
+h1{font-family:"Amiri","Noto Naskh Arabic",serif;font-size:2rem;margin:0;color:var(--gold)}
+.sub{color:var(--mu);margin:2px 0}
+.orn{color:var(--gold);letter-spacing:8px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 10px;border-bottom:1px solid var(--bd)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.chip{white-space:nowrap;border:1px solid var(--bd);background:var(--card);border-radius:20px;padding:4px 12px;cursor:pointer;font-size:.85rem}
+.chip.done{border-color:var(--gold);background:var(--gl)}
+.bar{height:4px;background:var(--bd);border-radius:4px;margin-top:6px}.bar i{display:block;height:100%;background:var(--gold);border-radius:4px;transition:width .3s}
+.wrap{max-width:1050px;margin:0 auto;padding:12px 12px 120px;display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:900px){.wrap{grid-template-columns:1fr 340px;padding-bottom:40px}.bottom{display:none}aside{position:sticky;top:90px;align-self:start}}
+@media(max-width:899px){aside{display:none}}
+section{margin-bottom:22px}
+h2{font-family:"Amiri",serif;font-size:1.35rem;margin:0 0 10px;border-bottom:2px solid var(--gl);padding-bottom:4px}
+h3{font-size:1rem;color:var(--mu);margin:10px 0 6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.opt{display:block;width:100%;text-align:start;background:var(--card);border:1.5px solid var(--bd);border-radius:14px;padding:12px;cursor:pointer;box-shadow:0 1px 4px #0001;transition:.2s;position:relative}
+.opt.on{border-color:var(--gold);background:var(--gl);box-shadow:0 2px 10px #b8934a44}
+.opt.on:after{content:"✓";position:absolute;top:8px;left:10px;color:var(--gold);font-weight:700}
+.opt:focus-visible,.chip:focus-visible,.btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.nm{font-weight:700}.pr{color:var(--gold);font-weight:700}
+.tag{display:inline-block;font-size:.72rem;color:var(--wr);border:1px solid var(--wr);border-radius:10px;padding:0 7px;margin-top:4px}
+.note{background:var(--gl);border-radius:10px;padding:8px 12px;font-size:.88rem;margin:8px 0}
+.warn{color:var(--wr)}
+input[type=text],input[type=date],input[type=number],textarea{width:100%;background:var(--card);border:1.5px solid var(--bd);border-radius:10px;padding:8px 10px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+label{font-size:.9rem;color:var(--mu)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;box-shadow:0 2px 10px #0001}
+.line{display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:.92rem}
+.tot{border-top:2px solid var(--gold);margin-top:6px;padding-top:6px;font-weight:800;font-size:1.15rem;color:var(--gold)}
+.btn{border:1.5px solid var(--gold);background:var(--card);border-radius:12px;padding:8px 12px;cursor:pointer;margin:3px}
+.btn.p{background:var(--gold);color:#fff}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:2px solid var(--gold);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;align-items:center;z-index:9}
+table{width:100%;border-collapse:collapse;font-size:.88rem}td,th{border-bottom:1px solid var(--bd);padding:6px;text-align:start;vertical-align:top}
+.diff{background:var(--gl)}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:8px 16px;border-radius:20px;z-index:20}
+.scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script>
+const {useState,useEffect,useMemo}=React, h=React.createElement;
+/* ===== CONFIG: edit all prices here ===== */
+const CONFIG={
+ baseGuests:150, chairFee:75, servicePct:12,
+ packages:{weekday:{label:"ويك داي",price:39900},weekend:{label:"ويك إند",price:44900}},
+ included:["DJ","كوشة","نظام إضاءة","دانس فلور","ترابيزات وكراسي","سنتر بيس","كات ووك","إيجار القاعة"],
+ buffets:[{id:"b1",name:"بوفيه 1",price:75},{id:"b2",name:"بوفيه 2",price:110},{id:"b3",name:"بوفيه 3",price:275},{id:"b4",name:"بوفيه 4",price:310}],
+ groups:[
+  {id:"light",sec:"light",icon:"💡",title:"الإضاءة والمؤثرات",mode:"multi",items:[
+   {id:"laser",name:"ليزر إضافي",price:12000},{id:"smoke",name:"ماكينة دخان",price:2000},{id:"screen",name:"شاشة عرض",price:2000},
+   {id:"zaffa",name:"زفة دمياطلي",price:3500,confirm:1},{id:"fog",name:"ماكينة فوج",price:7500},{id:"bubble",name:"ماكينة بالبلز",price:2500}]},
+  {id:"cake",sec:"cake",icon:"🎂",title:"التورتة",mode:"multi",items:[
+   {id:"c3",name:"تورتة 3 دور فرنش",price:2500},{id:"c2",name:"تورتة 2 دور",price:2000,confirm:1},
+   {id:"cit",name:"تورتة إيطالي",price:6000},{id:"candy",name:"كاندي كورنر",price:7500}]},
+  {id:"cam",sec:"video",icon:"🎥",title:"باكدجات الكاميرات (اختيار واحد فقط)",mode:"single",items:[
+   {id:"v1",name:"كاميرا فيديو واحدة",price:1750},{id:"v2",name:"2 كاميرا فيديو",price:3000},
+   {id:"v1c",name:"كاميرا فيديو + كرين",price:4000},{id:"v2c",name:"2 كاميرا فيديو + كرين",price:5000}]},
+  {id:"drone",sec:"video",icon:"🚁",title:"الدرون",mode:"multi",items:[{id:"drone",name:"درون",price:5000,confirm:1,venue:1}]},
+  {id:"fire",sec:"fire",icon:"🔥",title:"الفاير شو (نوع واحد أو لا شيء)",mode:"single",items:[
+   {id:"f1",name:"Fire Show Joy — النوع الأول",price:7500},{id:"f2",name:"Fire Show Joy — النوع الثاني",price:15000}]},
+  {id:"entry",sec:"entry",icon:"🎟️",title:"رسوم الدخول",mode:"multi",items:[
+   {id:"e1",name:"رسوم دخول المأذون + ديكور الترابيزة",price:1000},{id:"e2",name:"دخول مصور من الخارج وقت الحفلة",price:2000},
+   {id:"e3",name:"دخول عمل فوتوسيشن قبل الحفلة",price:2000},{id:"e4",name:"دخول برومو فيديو",price:2000}]}
+ ]
+};
+const SECS=[["info","بيانات الحفلة"],["pkg","الباكدج والأفراد"],["buf","البوفيه"],["light","الإضاءة والمؤثرات"],["cake","التورتة"],["video","التصوير والفيديو"],["fire","الفاير شو"],["entry","رسوم الدخول"],["sum","ملخص التكلفة"]];
+const ALL=CONFIG.groups.flatMap(g=>g.items.map(i=>({...i,g:g.id})));
+const DEF={pkg:"weekday",guests:150,buffet:null,sel:[],names:"",date:"",notes:""};
+const fmt=n=>Math.round(n).toLocaleString("en-US");
+const egp=n=>fmt(n)+" جنيه";
+function calc(s){
+ const base=CONFIG.packages[s.pkg].price, g=Math.max(0,Math.floor(+s.guests||0)), extra=Math.max(0,g-CONFIG.baseGuests);
+ const bf=CONFIG.buffets.find(b=>b.id===s.buffet), meal=bf?bf.price:0, extraCost=extra*(CONFIG.chairFee+meal);
+ const items=s.sel.map(id=>ALL.find(i=>i.id===id)).filter(Boolean), ex=items.reduce((a,i)=>a+i.price,0);
+ const sub=base+extraCost+ex, svc=sub*CONFIG.servicePct/100;
+ return {base,g,extra,bf,meal,extraCost,items,ex,sub,svc,total:sub+svc};
+}
+const enc=s=>btoa(unescape(encodeURIComponent(JSON.stringify(s))));
+function dec(t){try{const o=JSON.parse(decodeURIComponent(escape(atob(t.trim()))));
+ return {pkg:CONFIG.packages[o.pkg]?o.pkg:"weekday",guests:Math.max(0,Math.floor(+o.guests||0)),buffet:CONFIG.buffets.some(b=>b.id===o.buffet)?o.buffet:null,
+ sel:fix((o.sel||[]).filter(id=>ALL.some(i=>i.id===id))),names:String(o.names||""),date:String(o.date||""),notes:String(o.notes||"")}}catch(e){return null}}
+function fix(sel){ // keep at most one per single-mode group
+ const seen={};return sel.filter(id=>{const i=ALL.find(x=>x.id===id),g=CONFIG.groups.find(x=>x.id===i.g);
+  if(g.mode==="single"){if(seen[g.id])return false;seen[g.id]=1}return true})}
+const link=s=>location.href.split("#")[0]+"#s="+enc(s);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+function copy(t){try{if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(t).then(()=>true,()=>fb(t))}catch(e){}return Promise.resolve(fb(t))}
+function fb(t){try{const a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity=0;document.body.appendChild(a);a.select();const ok=document.execCommand("copy");a.remove();return ok}catch(e){return false}}
+function summaryText(s){const c=calc(s);
+ return ["فرحنا في White Plaza 🤍",s.names&&("الأسماء: "+s.names),s.date&&("التاريخ: "+s.date),
+ "الباكدج: "+CONFIG.packages[s.pkg].label+" — "+egp(c.base),"عدد الأفراد: "+c.g+(c.extra?" (زيادة "+c.extra+")":""),
+ "البوفيه: "+(c.bf?c.bf.name+" — "+c.bf.price+" جنيه للفرد":"لم يتم الاختيار"),
+ c.extra?"تكلفة الأفراد الزيادة: "+egp(c.extraCost):"",
+ "الإضافات:"].concat(c.items.length?c.items.map(i=>"• "+i.name+" — "+fmt(i.price)):["• لا يوجد"],
+ ["إجمالي الإضافات: "+egp(c.ex),"خدمة "+CONFIG.servicePct+"%: "+egp(c.svc),"الإجمالي التقديري: "+egp(c.total),s.notes&&("ملاحظات: "+s.notes),
+ "(تقديري — يحتاج تأكيد من القاعة)"]).filter(Boolean).join("\n")}
+
+function Opt({on,onClick,children}){return h("button",{type:"button",className:"opt"+(on?" on":""),"aria-pressed":!!on,onClick},children)}
+function Sum({s,c}){return h("div",{className:"card"},h("h2",null,"ملخص التكلفة"),
+ [["سعر الباكدج ("+CONFIG.packages[s.pkg].label+")",egp(c.base)],["عدد الأفراد",c.g],["عدد الأفراد الزيادة",c.extra],
+ ["سعر الوجبة المختارة",c.bf?c.bf.price+" جنيه":"— لم تُختر"],["الكراسي والوجبات للزيادة ("+CONFIG.chairFee+" + "+c.meal+")",egp(c.extraCost)],
+ ["إجمالي الإضافات ("+c.items.length+")",egp(c.ex)],["الإجمالي قبل الخدمة",egp(c.sub)],["خدمة "+CONFIG.servicePct+"%",egp(c.svc)]]
+ .map((r,i)=>h("div",{className:"line",key:i},h("span",null,r[0]),h("b",null,r[1]))),
+ h("div",{className:"line tot"},h("span",null,"الإجمالي النهائي التقديري"),h("span",null,egp(c.total))))}
+
+function App(){
+ const [s,setS]=useState(()=>{const m=location.hash.match(/s=([^&]+)/);return (m&&dec(decodeURIComponent(m[1])))||DEF});
+ const [toast,setToast]=useState("");const [imp,setImp]=useState("");const [saved,setSaved]=useState(()=>({me:store.get("wp_me"),her:store.get("wp_her")}));
+ const c=useMemo(()=>calc(s),[s]);
+ const say=m=>{setToast(m);setTimeout(()=>setToast(""),2200)};
+ const up=p=>setS(o=>({...o,...p}));
+ const toggle=(g,id)=>setS(o=>{const has=o.sel.includes(id);let sel=o.sel.filter(x=>x!==id);
+  if(!has){if(g.mode==="single")sel=sel.filter(x=>!g.items.some(i=>i.id===x));sel.push(id)}return {...o,sel}});
+ useEffect(()=>{try{history.replaceState(null,"","#s="+enc(s))}catch(e){}},[s]);
+ const doCopy=(t,m)=>copy(t).then(ok=>say(ok?m:"تعذر النسخ — انسخ يدويًا من خانة الاستيراد"));
+ const done={info:!!(s.names||s.date),pkg:true,buf:!!s.buffet};
+ ["light","cake","video","fire","entry"].forEach(k=>done[k]=s.sel.some(id=>CONFIG.groups.find(g=>g.sec===k&&g.items.some(i=>i.id===id))));
+ const pct=Math.round(Object.values(done).filter(Boolean).length/8*100);
+ const go=id=>{const e=document.getElementById("sec-"+id);e&&e.scrollIntoView({behavior:"smooth"})};
+ const gcard=g=>h("div",{key:g.id},h("h3",null,g.icon+" "+g.title),h("div",{className:"grid"},g.items.map(i=>
+  h(Opt,{key:i.id,on:s.sel.includes(i.id),onClick:()=>toggle(g,i.id)},h("div",{className:"nm"},i.name),h("div",{className:"pr"},egp(i.price)),
+   i.confirm?h("span",{className:"tag"},"يحتاج تأكيد من القاعة"):null))));
+ const save=who=>{store.set("wp_"+who,enc(s));setSaved(o=>({...o,[who]:enc(s)}));say("تم الحفظ على هذا الجهاز فقط")};
+ const A=saved.me&&dec(saved.me),B=saved.her&&dec(saved.her),ca=A&&calc(A),cb=B&&calc(B);
+ const cmpRows=A&&B?[["الباكدج",x=>CONFIG.packages[x.pkg].label],["عدد الأفراد",x=>x.guests],["البوفيه",x=>(CONFIG.buffets.find(b=>b.id===x.buffet)||{name:"—"}).name],
+  ["الإضافات",x=>calc(x).items.map(i=>i.name).join("، ")||"—"],["الإجمالي التقديري",x=>egp(calc(x).total)]]:[];
+ const onlyA=A&&B?ca.items.filter(i=>!cb.items.some(j=>j.id===i.id)):[],onlyB=A&&B?cb.items.filter(i=>!ca.items.some(j=>j.id===i.id)):[];
+ return h("div",null,
+ toast&&h("div",{className:"toast",role:"status"},toast),
+ h("header",null,h("div",{className:"orn"},"❦ ✦ ❦"),h("h1",null,"فرحنا في White Plaza 🤍"),h("p",null,"اختاروا تفاصيل فرحنا واحسبوا الميزانية سوا."),
+  h("p",{className:"sub"},"دار الوقود – محور المشير طنطاوي – مدينة نصر، القاهرة.")),
+ h("nav",null,h("div",{className:"chips"},SECS.map(([id,t],i)=>h("button",{key:id,className:"chip"+(done[id]?" done":""),onClick:()=>go(id)},(i+1)+". "+t))),h("div",{className:"bar"},h("i",{style:{width:pct+"%"}}))),
+ h("div",{className:"wrap"},
+ h("main",null,
+  h("section",{id:"sec-info"},h("h2",null,"1. بيانات الحفلة"),h("div",{className:"row"},
+   h("div",null,h("label",{htmlFor:"nm"},"الأسماء"),h("input",{id:"nm",type:"text",value:s.names,onChange:e=>up({names:e.target.value})})),
+   h("div",null,h("label",{htmlFor:"dt"},"تاريخ الفرح"),h("input",{id:"dt",type:"date",value:s.date,onChange:e=>up({date:e.target.value})})))),
+  h("section",{id:"sec-pkg"},h("h2",null,"2. الباكدج وعدد الأفراد"),h("div",{className:"grid"},Object.entries(CONFIG.packages).map(([k,p])=>
+   h(Opt,{key:k,on:s.pkg===k,onClick:()=>up({pkg:k})},h("div",{className:"nm"},p.label),h("div",{className:"pr"},egp(p.price)),h("small",null,"لحد "+CONFIG.baseGuests+" فرد")))),
+   h("div",{className:"note"},"الباكدج يشمل (حسب إعلان القاعة): "+CONFIG.included.join("، ")+". ",h("b",{className:"warn"},"لا نفترض أن الأكل مشمول — تأكدوا من القاعة.")),
+   h("label",{htmlFor:"gc"},"إجمالي عدد الأفراد"),
+   h("input",{id:"gc",type:"number",inputMode:"numeric",min:0,step:1,value:s.guests,onChange:e=>{const v=e.target.value;up({guests:v===""?"":Math.max(0,Math.floor(+v||0))})}}),
+   h("input",{type:"range","aria-label":"عدد الأفراد",min:50,max:500,step:5,value:c.g,onChange:e=>up({guests:+e.target.value}),style:{width:"100%",accentColor:"#b8934a"}}),
+   h("div",{className:"note"},c.extra?"أفراد زيادة: "+c.extra+" × ("+CONFIG.chairFee+" كرسي + "+c.meal+" وجبة) = "+egp(c.extraCost):"لا توجد زيادة — وفي حالة أقل من "+CONFIG.baseGuests+" لا يوجد خصم على الباكدج.")),
+  h("section",{id:"sec-buf"},h("h2",null,"3. البوفيه"),h("div",{className:"grid"},CONFIG.buffets.map(b=>
+   h(Opt,{key:b.id,on:s.buffet===b.id,onClick:()=>up({buffet:s.buffet===b.id?null:b.id})},h("div",{className:"nm"},"🍽️ "+b.name),h("div",{className:"pr"},b.price+" جنيه للفرد"),h("span",{className:"tag"},"مبدئي — يحتاج تأكيد")))),
+   h("div",{className:"note"},"البوفيه المختار يُستخدم لحساب تكلفة الأفراد الزيادة فقط (فوق "+CONFIG.baseGuests+"). لا نضيف سعره على أفراد الباكدج. ",h("b",null,"تأكدوا من القاعة هل البوفيه داخل سعر الباكدج أم بيتحسب بشكل منفصل."))),
+  [["light","4. الإضاءة والمؤثرات"],["cake","5. التورتة"],["video","6. التصوير والفيديو"],["fire","7. الفاير شو"],["entry","8. رسوم الدخول"]].map(([k,t])=>
+   h("section",{id:"sec-"+k,key:k},h("h2",null,t),CONFIG.groups.filter(g=>g.sec===k).map(gcard),
+    k==="entry"?h("div",{className:"note"},"كل أسعار الإضافات من صورة مكتوبة بخط اليد — راجعوها مع القاعة."):null)),
+  h("section",{id:"sec-sum"},h("h2",null,"9. ملخص التكلفة النهائي"),h(Sum,{s,c}),
+   h("div",{className:"note"},"الخدمة 12% مفترض تتحسب على الباكدج والأفراد الزيادة والإضافات — ",h("b",{className:"warn"},"يحتاج تأكيد من القاعة.")),
+   h("label",{htmlFor:"nt"},"ملاحظات وأسئلة للقاعة"),h("textarea",{id:"nt",rows:3,value:s.notes,onChange:e=>up({notes:e.target.value})}),
+   h("div",{style:{marginTop:8}},
+    h("button",{className:"btn p",onClick:()=>doCopy(link(s),"تم نسخ الرابط")},"نسخ رابط المشاركة"),
+    h("button",{className:"btn",onClick:()=>doCopy(summaryText(s),"تم نسخ الملخص")},"نسخ ملخص الاختيارات"),
+    h("a",{className:"btn",style:{display:"inline-block",textDecoration:"none"},target:"_blank",rel:"noopener",href:"https://wa.me/?text="+encodeURIComponent(summaryText(s)+"\n\n"+link(s))},"مشاركة على واتساب"),
+    h("button",{className:"btn",onClick:()=>{if(confirm("مسح كل الاختيارات؟"))setS(DEF)}},"إعادة الاختيارات من البداية")),
+   h("p",{className:"note"},"الحساب تقديري بناءً على الأسعار المتاحة. يجب تأكيد أسعار الإضافات، تفاصيل البوفيه، وما يشمله الباكدج وطريقة حساب الخدمة مع القاعة.")),
+  h("section",{id:"sec-cmp"},h("h2",null,"اختياراتي ❤️ اختياراتها"),
+   h("div",{className:"note"},"الحفظ هنا على متصفح هذا الجهاز فقط ولا يتزامن مع جهاز آخر. لتبادل الاختيارات: انسخوا الرابط أو الكود وابعتوه، واستوردوه عند الطرف الآخر."),
+   h("button",{className:"btn p",onClick:()=>save("me")},"حفظ اختياراتي"),h("button",{className:"btn p",onClick:()=>save("her")},"حفظ اختياراتها"),
+   h("button",{className:"btn",onClick:()=>doCopy(enc(s),"تم نسخ الكود")},"نسخ كود الاختيارات"),
+   h("div",{className:"row",style:{marginTop:8}},h("div",null,h("label",{htmlFor:"im"},"استيراد رابط أو كود"),h("textarea",{id:"im",rows:2,value:imp,onChange:e=>setImp(e.target.value)}))),
+   [["me","كاستخدام الحالي كاختياراتي"],["her","كاختياراتها"]].map(([w,t])=>h("button",{key:w,className:"btn",onClick:()=>{const m=imp.match(/s=([^&\s]+)/),d=dec(decodeURIComponent(m?m[1]:imp));
+    if(!d)return say("الكود غير صالح");store.set("wp_"+w,enc(d));setSaved(o=>({...o,[w]:enc(d)}));say("تم الاستيراد")}},"استيراد "+(w==="me"?"كاختياراتي":"كاختياراتها"))),
+   h("button",{className:"btn",onClick:()=>{const d=imp&&dec((imp.match(/s=([^&\s]+)/)||[0,imp])[1]);d?(setS(d),say("تم تحميل الاختيارات")):say("الكود غير صالح")}},"تحميل في الصفحة"),
+   A&&B?h("div",{className:"scroll"},h("table",null,h("thead",null,h("tr",null,h("th"),h("th",null,"اختياراتي ❤️"),h("th",null,"❤️ اختياراتها"))),
+    h("tbody",null,cmpRows.map(([t,f])=>{const a=f(A),b=f(B);return h("tr",{key:t,className:a!==b?"diff":""},h("td",null,h("b",null,t)),h("td",null,a),h("td",null,b))}),
+    h("tr",null,h("td",null,h("b",null,"فقط عندي")),h("td",{colSpan:2},onlyA.map(i=>i.name).join("، ")||"—")),
+    h("tr",null,h("td",null,h("b",null,"فقط عندها")),h("td",{colSpan:2},onlyB.map(i=>i.name).join("، ")||"—")))),
+    h("p",{className:"pr"},"فرق الإجمالي: "+egp(Math.abs(ca.total-cb.total))+(ca.total===cb.total?" (متساويان)":ca.total>cb.total?" — اختياراتك أعلى":" — اختياراتها أعلى"))):
+    h("p",{className:"sub"},"احفظوا الاثنين لعرض المقارنة."))),
+ h("aside",null,h(Sum,{s,c}))),
+ h("div",{className:"bottom"},h("div",null,h("small",null,"الإجمالي التقديري"),h("div",{className:"pr",style:{fontSize:"1.2rem"}},egp(c.total))),
+  h("button",{className:"btn p",onClick:()=>go("sum")},"التفاصيل")))}
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));
+</script>
+</body>
+</html>
